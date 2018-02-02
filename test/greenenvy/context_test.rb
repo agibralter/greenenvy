@@ -1,16 +1,17 @@
 require "test_helper"
 
-describe Greenenvy::Context do
+module Greenenvy
+  describe Context do
 
-  class HashLike < Hash
-    def initialize(other_hash)
-      merge!(other_hash)
+    class HashLike < Hash
+      def initialize(other_hash)
+        merge!(other_hash)
+      end
     end
-  end
 
-  it "evaluates code" do
-    name_validator = Minitest::Mock.new
-    code = <<~CODE
+    it "evaluates code" do
+      name_validator = Minitest::Mock.new
+      code = <<~CODE
       env :foo do
         set :bar, "baz"
       end
@@ -18,17 +19,18 @@ describe Greenenvy::Context do
       default do
         set :qux, 1
       end
-    CODE
-    env = "foo"
-    container_class = HashLike
+      CODE
+      env = "foo"
+      container_class = HashLike
 
-    name_validator.expect(:validate!, nil, [:foo])
-    name_validator.expect(:validate!, nil, [:bar])
-    name_validator.expect(:validate!, nil, [:qux])
+      name_validator.expect(:validate!, nil, [:foo])
+      name_validator.expect(:validate!, nil, [:bar])
+      name_validator.expect(:validate!, nil, [:qux])
 
-    code_context = Greenenvy::Context.new(name_validator, env, code, container_class)
+      code_context = Context.new(name_validator, env, code, container_class)
 
-    assert_equal({bar: "baz", qux: 1}, code_context.load_settings)
-    assert_mock(name_validator)
+      assert_equal({bar: "baz", qux: 1}, code_context.load_settings)
+      assert_mock(name_validator)
+    end
   end
 end
