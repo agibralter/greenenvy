@@ -1,11 +1,16 @@
 module Greenenvy
   class OpenStructLike < BasicObject
     def initialize(hash)
+      @hash = hash
       @method_missing_handler = MethodMissingHandler.new(hash)
     end
 
     def method_missing(name, *_)
       @method_missing_handler.call(name)
+    end
+
+    def inspect
+      @hash.inspect
     end
 
     class MethodMissingHandler
@@ -21,7 +26,7 @@ module Greenenvy
         if @hash.key?(name)
           result_with_predicate(name, predicate)
         else
-          raise Exceptions::MissingKey, "Unknown key, #{name}."
+          raise Exceptions::MissingKey, missing_key_message(name)
         end
       end
 
@@ -37,6 +42,10 @@ module Greenenvy
 
       def result_with_predicate(key, predicate)
         predicate ? !!@hash[key] : @hash[key]
+      end
+
+      def missing_key_message(name)
+        "Unknown key: #{name}. Valid keys: #{@hash.keys.join(", ")}."
       end
     end
   end

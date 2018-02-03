@@ -14,6 +14,7 @@ module Greenenvy
         :singleton_method_removed,
         :singleton_method_undefined,
         :initialize,
+        :inspect,
     ].freeze
 
     def valid?(name)
