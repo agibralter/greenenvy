@@ -23,7 +23,7 @@ module Greenenvy
     end
   end
 
-  class OuterContext < BasicObject
+  class OuterContext
     def initialize(name_validator, env, default_settings, env_settings)
       @name_validator = name_validator
       @env = env
@@ -45,7 +45,8 @@ module Greenenvy
     end
   end
 
-  class InnerContext < BasicObject
+  class InnerContext
+
     def initialize(name_validator, settings)
       @name_validator = name_validator
       @settings = settings
