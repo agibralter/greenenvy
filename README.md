@@ -38,7 +38,7 @@ module MyApp
   class Application < Rails::Application
 
     # Load config/settings/*.rb with Greenenvy gem
-    ::Settings = Greenenvy.load(
+    ::Settings = Greenenvy.load_env(
       Rails.env,
       Rails.root.join("config", "settings"),
     )
