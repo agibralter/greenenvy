@@ -17,6 +17,8 @@ module Greenenvy
         :inspect,
     ].freeze
 
+    REGEXP = %r{\A[A-Za-z]+\w+\z}.freeze
+
     def valid?(name)
       name = name.to_s
       !reserved_method?(name) && valid_pattern?(name)
@@ -28,8 +30,14 @@ module Greenenvy
       BASIC_OBJECT_METHODS.include?(name)
     end
 
-    def valid_pattern?(name)
-      %r{\A[A-Za-z]+\w+\z}.match?(name)
+    if String.instance_methods.include?(:match?)
+      def valid_pattern?(name)
+        REGEXP.match?(name)
+      end
+    else
+      def valid_pattern?(name)
+        name =~ REGEXP ? true : false
+      end
     end
   end
 end
