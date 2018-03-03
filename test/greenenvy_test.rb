@@ -8,9 +8,6 @@ describe Greenenvy do
   end
 
   describe "load_env" do
-    MissingKey = Greenenvy::Exceptions::MissingKey
-    InvalidKey = Greenenvy::Exceptions::InvalidKey
-
     it "loads values for the property name in the correct env" do
       settings = Greenenvy.load_env(:test, FIXTURE_DIR)
       assert_equal("foo", settings.config.var_string)
@@ -33,8 +30,8 @@ describe Greenenvy do
 
     it "raises an exception when passing an invalid key" do
       settings = Greenenvy.load_env(:test, FIXTURE_DIR)
-      assert_raises(MissingKey) { settings.invalid }
-      assert_raises(MissingKey) { settings.config.invalid }
+      assert_raises(Greenenvy::Exceptions::MissingKey) { settings.invalid }
+      assert_raises(Greenenvy::Exceptions::MissingKey) { settings.config.invalid }
     end
 
     it "loads when passed a string env name" do
@@ -64,17 +61,17 @@ describe Greenenvy do
     end
 
     it "does not allow users to use reserved name for env" do
-      assert_raises(InvalidKey) do
+      assert_raises(Greenenvy::Exceptions::InvalidKey) do
         Greenenvy.load_env(:__id__, FIXTURE_DIR)
       end
     end
 
     it "does not allow users to use reserved name for keys" do
-      assert_raises(InvalidKey) do
+      assert_raises(Greenenvy::Exceptions::InvalidKey) do
         Greenenvy.load_env(:invalid_key_name1, FIXTURE_DIR)
       end
 
-      assert_raises(InvalidKey) do
+      assert_raises(Greenenvy::Exceptions::InvalidKey) do
         Greenenvy.load_env(:invalid_key_name2, FIXTURE_DIR)
       end
     end
