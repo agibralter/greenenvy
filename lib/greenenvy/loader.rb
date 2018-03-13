@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Greenenvy
   class Loader
     def initialize(context_class, name_validator, env, dir)

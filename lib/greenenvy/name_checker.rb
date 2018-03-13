@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Greenenvy
   class NameChecker
     BASIC_OBJECT_METHODS = [

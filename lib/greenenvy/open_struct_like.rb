@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Greenenvy
   class OpenStructLike < BasicObject
     def initialize(hash)

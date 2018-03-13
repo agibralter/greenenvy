@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "greenenvy/context"
 require "greenenvy/exceptions"
 require "greenenvy/loader"

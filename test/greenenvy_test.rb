@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "test_helper"
 
 FIXTURE_DIR = File.expand_path("../fixtures", __FILE__)

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 env :test do
   set :var_string, "foo"
   set :var_number, 1

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 default do
   set :var_string, "baz"
 end
