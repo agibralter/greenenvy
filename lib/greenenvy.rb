@@ -2,15 +2,14 @@
 require "greenenvy/context"
 require "greenenvy/exceptions"
 require "greenenvy/loader"
-require "greenenvy/name_checker"
 require "greenenvy/name_validator"
-require "greenenvy/open_struct_like"
+require "greenenvy/container"
 require "greenenvy/version"
 
 module Greenenvy
   def self.load_env(env, dir)
-    name_validator = NameValidator.new(NameChecker.new)
+    name_validator = NameValidator.new(Container)
     loader = Loader.new(Context, name_validator, env, dir).load
-    OpenStructLike.new(loader)
+    Container.new(loader)
   end
 end

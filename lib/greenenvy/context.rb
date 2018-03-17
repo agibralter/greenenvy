@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Greenenvy
   class Context
-    def initialize(name_validator, env, code, container_class=OpenStructLike)
+    def initialize(name_validator, env, code, container_class=Container)
       @name_validator = name_validator
       @env = env
       @code = code

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module Greenenvy
-  class OpenStructLike < BasicObject
+  class Container
     def initialize(hash)
       @hash = hash
       @method_missing_handler = MethodMissingHandler.new(hash)
@@ -10,8 +10,8 @@ module Greenenvy
       @method_missing_handler.call(name)
     end
 
-    def inspect
-      @hash.inspect
+    def respond_to?(name, _=false)
+      @method_missing_handler.respond?(name) || super
     end
 
     class MethodMissingHandler
@@ -20,24 +20,27 @@ module Greenenvy
       end
 
       def call(name)
-        name, predicate = process_predicate(name.to_s)
+        processed_name, predicate = process_predicate(name)
 
-        name = name.to_sym
-
-        if @hash.key?(name)
-          result_with_predicate(name, predicate)
+        if @hash.key?(processed_name)
+          result_with_predicate(processed_name, predicate)
         else
-          raise Exceptions::MissingKey, missing_key_message(name)
+          raise Exceptions::MissingKey, missing_key_message(processed_name)
         end
+      end
+
+      def respond?(name)
+        processed_name, _ = process_predicate(name)
+        @hash.key?(processed_name)
       end
 
       private
 
       def process_predicate(name)
         if name[-1] == "?"
-          [name[0..-2], true]
+          [name[0..-2].to_sym, true]
         else
-          [name, false]
+          [name.to_sym, false]
         end
       end
 
